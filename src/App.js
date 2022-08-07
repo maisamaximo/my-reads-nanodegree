@@ -1,10 +1,38 @@
 import "./App.css";
-import { useState } from "react";
-import { BookCard } from "./BookCard";
-
-
+import { BookShelf } from "./components/BookShelf";
+import { Header } from "./components/Header";
+import { Link } from "react-router-dom";
+import * as BooksAPI from "./BooksAPI";
+import { useState, useEffect } from "react";
 
 function App() {
+  const [books, setBooks] = useState([]);
+
+  const getAllBooks = async () => {
+    const response = await BooksAPI.getAll();
+    setBooks(response);
+  };
+
+  useEffect(() => {
+    getAllBooks();
+    console.log("books", books);
+  }, [books.length]);
+
+  const shelves = [
+    {
+      id: "currentlyReading",
+      name: "Currently Reading"
+    },
+    {
+      id: "wantToRead",
+      name: "Want To Read"
+    },
+    {
+      id: "read",
+      name: "Read"
+    }
+  ]
+
   const [showSearchPage, setShowSearchpage] = useState(false);
 
   return (
@@ -31,54 +59,17 @@ function App() {
         </div>
       ) : (
         <div className="list-books">
-          <div className="list-books-title">
-            <h1>MyReads</h1>
-          </div>
+          <Header />
           <div className="list-books-content">
-            <div>
-              <div className="bookshelf">
-                <h2 className="bookshelf-title">Currently Reading</h2>
-                <div className="bookshelf-books">
-                  <ol className="books-grid">
-                    <li>
-                    <BookCard width={128} height={193} backgroundImage={'http://books.google.com/books/content?id=uu1mC6zWNTwC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73pGHfBNSsJG9Y8kRBpmLUft9O4BfItHioHolWNKOdLavw-SLcXADy3CPAfJ0_qMb18RmCa7Ds1cTdpM3dxAGJs8zfCfm8c6ggBIjzKT7XR5FIB53HHOhnsT7a0Cc-PpneWq9zX&source=gbs_api'}/>
-                    </li>
-                    <li>
-                    <BookCard width={128} height={193} backgroundImage={'http://books.google.com/books/content?id=uu1mC6zWNTwC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73pGHfBNSsJG9Y8kRBpmLUft9O4BfItHioHolWNKOdLavw-SLcXADy3CPAfJ0_qMb18RmCa7Ds1cTdpM3dxAGJs8zfCfm8c6ggBIjzKT7XR5FIB53HHOhnsT7a0Cc-PpneWq9zX&source=gbs_api'}/>
-                    </li>
-                  </ol>
-                </div>
-              </div>
-              <div className="bookshelf">
-                <h2 className="bookshelf-title">Want to Read</h2>
-                <div className="bookshelf-books">
-                  <ol className="books-grid">
-                    <li>
-                      <BookCard width={128} height={193} backgroundImage={'http://books.google.com/books/content?id=uu1mC6zWNTwC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73pGHfBNSsJG9Y8kRBpmLUft9O4BfItHioHolWNKOdLavw-SLcXADy3CPAfJ0_qMb18RmCa7Ds1cTdpM3dxAGJs8zfCfm8c6ggBIjzKT7XR5FIB53HHOhnsT7a0Cc-PpneWq9zX&source=gbs_api'}/>
-                    </li>
-                    <li>
-                    <BookCard width={128} height={193} backgroundImage={'http://books.google.com/books/content?id=uu1mC6zWNTwC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73pGHfBNSsJG9Y8kRBpmLUft9O4BfItHioHolWNKOdLavw-SLcXADy3CPAfJ0_qMb18RmCa7Ds1cTdpM3dxAGJs8zfCfm8c6ggBIjzKT7XR5FIB53HHOhnsT7a0Cc-PpneWq9zX&source=gbs_api'}/>
-                    </li>
-                  </ol>
-                </div>
-              </div>
-              <div className="bookshelf">
-                <h2 className="bookshelf-title">Read</h2>
-                <div className="bookshelf-books">
-                  <ol className="books-grid">
-                    <li>
-                    <BookCard width={128} height={193} backgroundImage={'http://books.google.com/books/content?id=uu1mC6zWNTwC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73pGHfBNSsJG9Y8kRBpmLUft9O4BfItHioHolWNKOdLavw-SLcXADy3CPAfJ0_qMb18RmCa7Ds1cTdpM3dxAGJs8zfCfm8c6ggBIjzKT7XR5FIB53HHOhnsT7a0Cc-PpneWq9zX&source=gbs_api'}/>
-                    </li>
-                    <li>
-                    <BookCard width={128} height={193} backgroundImage={'http://books.google.com/books/content?id=uu1mC6zWNTwC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73pGHfBNSsJG9Y8kRBpmLUft9O4BfItHioHolWNKOdLavw-SLcXADy3CPAfJ0_qMb18RmCa7Ds1cTdpM3dxAGJs8zfCfm8c6ggBIjzKT7XR5FIB53HHOhnsT7a0Cc-PpneWq9zX&source=gbs_api'}/>
-                    </li>
-                    <li>
-                    <BookCard width={128} height={193} backgroundImage={'http://books.google.com/books/content?id=uu1mC6zWNTwC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73pGHfBNSsJG9Y8kRBpmLUft9O4BfItHioHolWNKOdLavw-SLcXADy3CPAfJ0_qMb18RmCa7Ds1cTdpM3dxAGJs8zfCfm8c6ggBIjzKT7XR5FIB53HHOhnsT7a0Cc-PpneWq9zX&source=gbs_api'}/>
-                    </li>
-                  </ol>
-                </div>
-              </div>
-            </div>
+            {shelves.map(shelf => (
+                    <BookShelf
+                      key={shelf.id}
+                      shelf={shelf}
+                      books={books.filter(shelvedBooks => {
+                        return shelvedBooks.shelf === shelf.id;
+                      })}
+                    />
+            ))}
           </div>
           <div className="open-search">
             <a onClick={() => setShowSearchpage(!showSearchPage)}>Add a book</a>
