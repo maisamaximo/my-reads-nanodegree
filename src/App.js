@@ -4,6 +4,7 @@ import { Header } from "./components/Header";
 import { Link } from "react-router-dom";
 import * as BooksAPI from "./BooksAPI";
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -36,16 +37,43 @@ function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
 
   return (
-    <div className="app">
-      {showSearchPage ? (
-        <div className="search-books">
+    <>
+    <Router>
+      <Routes>
+        <Route
+          exact
+          path="/"
+          element={
+            <div className="list-books">
+            <Header />
+            <div className="list-books-content">
+              {shelves.map(shelf => (
+                      <BookShelf
+                        key={shelf.id}
+                        shelf={shelf}
+                        books={books.filter(shelvedBooks => {
+                          return shelvedBooks.shelf === shelf.id;
+                        })}
+                      />
+              ))}
+            </div>
+            <div className="open-search">
+              <Link to="/search">Add a book</Link>
+            </div>
+          </div>
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <div className="search-books">
           <div className="search-books-bar">
-            <a href="#"
+            <Link
               className="close-search"
-              onClick={() => setShowSearchpage(!showSearchPage)}
+              to="/"
             >
               Close
-            </a>
+            </Link>
             <div className="search-books-input-wrapper">
               <input
                 type="text"
@@ -57,26 +85,11 @@ function App() {
             <ol className="books-grid"></ol>
           </div>
         </div>
-      ) : (
-        <div className="list-books">
-          <Header />
-          <div className="list-books-content">
-            {shelves.map(shelf => (
-                    <BookShelf
-                      key={shelf.id}
-                      shelf={shelf}
-                      books={books.filter(shelvedBooks => {
-                        return shelvedBooks.shelf === shelf.id;
-                      })}
-                    />
-            ))}
-          </div>
-          <div className="open-search">
-            <a onClick={() => setShowSearchpage(!showSearchPage)}>Add a book</a>
-          </div>
-        </div>
-      )}
-    </div>
+          }
+        />
+      </Routes>
+    </Router>
+    </>
   );
 }
 
