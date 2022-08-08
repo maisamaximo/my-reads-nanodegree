@@ -2,6 +2,8 @@ import "./App.css";
 import { BookShelf } from "./components/BookShelf";
 import { Header } from "./components/Header";
 import { Link } from "react-router-dom";
+import { SearchNewBook } from "./components/SearchNewBook";
+
 import * as BooksAPI from "./BooksAPI";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -73,25 +75,10 @@ function App() {
         <Route
           path="/search"
           element={
-            <div className="search-books">
-          <div className="search-books-bar">
-            <Link
-              className="close-search"
-              to="/"
-            >
-              Close
-            </Link>
-            <div className="search-books-input-wrapper">
-              <input
-                type="text"
-                placeholder="Search by title, author, or ISBN"
-              />
-            </div>
-          </div>
-          <div className="search-books-results">
-            <ol className="books-grid"></ol>
-          </div>
-        </div>
+            <SearchNewBook
+              books={books}
+              changeShelf={changeShelf}
+            />
           }
         />
       </Routes>
