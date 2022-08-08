@@ -34,7 +34,12 @@ function App() {
     }
   ]
 
-  const [showSearchPage, setShowSearchpage] = useState(false);
+  const changeShelf = (bookToAdd, shelf) => {
+    this.setState(state => {
+          const nextState = books.filter(book => book.id !== bookToAdd.id).concat( [{...bookToAdd, shelf}] );
+          return setBooks(nextState) ;
+        });
+      }
 
   return (
     <>
@@ -51,6 +56,8 @@ function App() {
                       <BookShelf
                         key={shelf.id}
                         shelf={shelf}
+                        changeShelf={changeShelf}
+                        getAllBooks={getAllBooks}
                         books={books.filter(shelvedBooks => {
                           return shelvedBooks.shelf === shelf.id;
                         })}

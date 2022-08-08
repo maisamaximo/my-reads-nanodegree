@@ -1,6 +1,6 @@
 import { BookCard } from "../BookCard/";
 
-export function BookShelf({shelf, books}) {
+export function BookShelf({shelf, books, changeShelf, getAllBooks}) {
 
 
 
@@ -14,6 +14,8 @@ export function BookShelf({shelf, books}) {
                 book={book}
                 shelf={shelf}
                 key={book.id}
+                getAllBooks={getAllBooks}
+                changeShelf={changeShelf}
               />
             ))}
             </ol>

@@ -1,6 +1,7 @@
 import './styles.css'
+import * as BooksAPI from "../../BooksAPI";
 
-export function BookCard({book}) {
+export function BookCard({book, getAllBooks}) {
 
     const mapImage = (book) => {
     
@@ -11,6 +12,11 @@ export function BookCard({book}) {
           return "none";
         }
       }
+
+  const selectShelf = (event) => {
+    const value = event.target.value;
+    BooksAPI.update(book, value).then(getAllBooks);
+  };
 
   return (
     <div className="book">
@@ -24,21 +30,21 @@ export function BookCard({book}) {
             }}
         ></div>
         <div className="book-shelf-changer">
-            <select>
-            <option value="none" disabled>
-                Move to...
+        <select defaultValue={book.shelf} onChange={selectShelf}>
+            <option value="move" disabled>
+            Move to...
             </option>
-            <option value="currentlyReading">
-                Currently Reading
-            </option>
+            <option value="currentlyReading">Currently Reading</option>
             <option value="wantToRead">Want to Read</option>
             <option value="read">Read</option>
             <option value="none">None</option>
-            </select>
+        </select>
         </div>
         </div>
-        <div className="book-title">1776</div>
-        <div className="book-authors">David McCullough</div>
-    </div>
+        <div className="book-title">{book.title}</div>
+        {book.authors !== undefined && book.authors && book.authors.map((author)=>(
+                <div key={author} className="book-authors">{ author }</div>
+            ))} 
+        </div>
     )
 }
